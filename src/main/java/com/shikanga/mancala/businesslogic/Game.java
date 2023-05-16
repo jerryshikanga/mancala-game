@@ -15,7 +15,7 @@ public class Game {
     private final int NUM_PITS = 6;
     private final int BIG_PIT_INDEX = NUM_PITS;
 
-    private Logger logger;
+    private final Logger logger;
 
     private int[][] board;
 
@@ -32,6 +32,7 @@ public class Game {
                 board[playerIndex][pitIndex] = NUM_STONES_IN_PIT_AT_START;
             }
         }
+        logger = LoggerFactory.getLogger(Game.class);
     }
 
     public int[][] getBoard() {
@@ -50,13 +51,6 @@ public class Game {
         this.currentPlayer = currentPlayer;
     }
 
-    private Logger getLogger() {
-        if (logger == null){
-            logger = LoggerFactory.getLogger(Game.class);
-        }
-        return logger;
-    }
-
     private int switchBoardOrPlayer(int currentBoardOrPlayer){
         if (currentBoardOrPlayer == 0){
             return 1;
@@ -69,17 +63,17 @@ public class Game {
         String message;
         if (player < 0 || player >= NUM_PLAYERS){
             message = "The player ID " + player + " is invalid.";
-            this.getLogger().warn(message);
+            this.logger.warn(message);
             throw new InvalidPlayerException(message);
         }
         if (pitIndex < 0 || pitIndex > BIG_PIT_INDEX){
             message = "The pit index " + pitIndex + " is invalid.";
-            this.getLogger().warn(message);
+            this.logger.warn(message);
             throw new InvalidPitException(message);
         }
         if (this.board[player][pitIndex] <= 0){
             message = "The pit is empty!";
-            this.getLogger().warn(message);
+            this.logger.warn(message);
             throw new EmptyPitException("The pit is empty!");
         }
         if(player!=currentPlayer){
@@ -101,12 +95,12 @@ public class Game {
         int opponentPitStones = board[opponent][opponentCorrespondingPitIndex];
         board[opponent][opponentCorrespondingPitIndex] = 0;
         board[player][BIG_PIT_INDEX] += opponentPitStones;
-        this.getLogger().info("Captured "+ opponentPitStones + " stones from opponent pit "+opponentCorrespondingPitIndex);
+        this.logger.info("Captured "+ opponentPitStones + " stones from opponent pit "+opponentCorrespondingPitIndex);
     }
 
     public void makeMove(int playerWhoHasMadeMove, int pitIndex) {
         this.validateMove(playerWhoHasMadeMove, pitIndex);
-        this.getLogger().info("Move "+ pitIndex +" by player " + playerWhoHasMadeMove+ " validated");
+        this.logger.info("Move "+ pitIndex +" by player " + playerWhoHasMadeMove+ " validated");
         int currentBoard = playerWhoHasMadeMove;
         int currentStoneCount = board[currentBoard][pitIndex];
         board[currentBoard][pitIndex] = 0;
@@ -117,7 +111,7 @@ public class Game {
         while (currentStoneCount > 0){
             // Handle a case where we should not sow in the opponents BigPit
             if (currentBoard != playerWhoHasMadeMove && currentPitIndex == BIG_PIT_INDEX){
-                this.getLogger().debug("Next pit is opponents big pit. Skipping.");
+                this.logger.debug("Next pit is opponents big pit. Skipping.");
                 currentBoard = this.switchBoardOrPlayer(currentBoard);
                 currentPitIndex = 0;
                 continue;
@@ -127,15 +121,15 @@ public class Game {
             board[currentBoard][currentPitIndex]++;
             currentStoneCount --;
 
-            // check if it is the last stone and it landed in the current player's own side of the board
+            // check if it is the last stone, and it landed in the current player's own side of the board
             // run a few extra checks if this is the case
             // these checks have to be run before switching boards or incrementing the currentPitIndex otherwise we end up with wrong data
             if (currentStoneCount == 0 && currentBoard == playerWhoHasMadeMove){
-                this.getLogger().debug("Last stone landed in current player's side of the board. Running extra checks.");
+                this.logger.debug("Last stone landed in current player's side of the board. Running extra checks.");
                 // Try to determine the next player
                 // the next player is always the opponent unless the current player last stone lands in his own big pit
                 if (currentPitIndex == BIG_PIT_INDEX){
-                    this.getLogger().debug("Last stone landed in current player's big pit. He/She has another chance to play.");
+                    this.logger.debug("Last stone landed in current player's big pit. He/She has another chance to play.");
                     nextPlayer = playerWhoHasMadeMove;
                 }
 
@@ -144,7 +138,7 @@ public class Game {
                 // If this is the case then we can capture the stones in the opponents pit opposite the current pit
                 int numberOfStonesInCurrentPitAfterIncrementing = board[currentBoard][currentPitIndex];
                 if (currentPitIndex != BIG_PIT_INDEX && numberOfStonesInCurrentPitAfterIncrementing == 1){
-                    this.getLogger().info("Last stone landed in a pit belonging to the current player that is empty. Will begin capture of opponent's stones.");
+                    this.logger.info("Last stone landed in a pit belonging to the current player that is empty. Will begin capture of opponent's stones.");
                     this.captureFromOpponentOppositePit(playerWhoHasMadeMove, currentPitIndex);
                 }
             }
@@ -154,7 +148,7 @@ public class Game {
 
             // check if we are at the end of the current players pits and move to the opponents pits
             if (currentPitIndex > NUM_PITS){
-                this.getLogger().debug("Switching to opponent's side of the board");
+                this.logger.debug("Switching to opponent's side of the board");
                 currentBoard = this.switchBoardOrPlayer(currentBoard);
                 currentPitIndex = 0;
             }
@@ -170,7 +164,7 @@ public class Game {
     public Boolean isGameOver(){
         boolean playerOneHasStones = this.countPlayerStones(0) > 0;
         boolean playerTwoHasStones = this.countPlayerStones(1) > 0;
-        this.getLogger().debug("playerOneHasStones "+playerOneHasStones+ " playerTwoHasStones "+playerTwoHasStones);
+        this.logger.debug("playerOneHasStones "+playerOneHasStones+ " playerTwoHasStones "+playerTwoHasStones);
         return !playerOneHasStones || !playerTwoHasStones;
     }
 }
