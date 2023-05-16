@@ -33,7 +33,7 @@ public class GameTests {
                 {0, 7, 7, 7, 7, 7, 1},
                 {6, 6, 6, 6, 6, 6, 0}
         };
-        game.makeMove(0);
+        game.makeMove(game.getCurrentPlayer(), 0);
         assertArrayEquals(expectedBoard, game.getBoard());
     }
 
@@ -48,7 +48,7 @@ public class GameTests {
                 {7, 6, 6, 6, 6, 6, 0}
         };
         game.setBoard(initialBoard);
-        game.makeMove(1);
+        game.makeMove(game.getCurrentPlayer(), 1);
         assertArrayEquals(expectedBoard, game.getBoard());
     }
 
@@ -63,7 +63,7 @@ public class GameTests {
                 {7, 7, 7, 7, 7, 7, 0}
         };
         game.setBoard(initialBoard);
-        game.makeMove(5);
+        game.makeMove(game.getCurrentPlayer(), 5);
         assertArrayEquals(expectedBoard, game.getBoard());
     }
 
@@ -78,7 +78,7 @@ public class GameTests {
                 {7, 7, 7, 7, 7, 7, 0}
         };
         game.setBoard(initialBoard);
-        game.makeMove(5);
+        game.makeMove(game.getCurrentPlayer(), 5);
         assertArrayEquals(expectedBoard, game.getBoard());
     }
 
@@ -134,6 +134,12 @@ public class GameTests {
         );
     }
 
+    @Test
+    public void testWhenPlayerPlaysWhenItsAnotherPlayersTurnExceptionThrown(){
+        game.setCurrentPlayer(0);
+        game.makeMove(game.getCurrentPlayer(), 0);
+    }
+
 
     @Test
     public void testWhenPitIndexIsLessThanZeroOrMoreThanSixExceptionIsThrown(){
@@ -148,16 +154,14 @@ public class GameTests {
     @Test
     public void testWhenLastStoneLandsInAnyOtherPitNextPlayerIsOpponent(){
         game.setCurrentPlayer(0);
-        int nextPlayer = game.makeMove(1);
-        assertEquals(1, nextPlayer);
+        game.makeMove(game.getCurrentPlayer(), 1);
         assertEquals(1, game.getCurrentPlayer());
     }
 
     @Test
     public void testWhenLastStoneLandsInSelfBigPitNextPlayerIsSelf(){
         game.setCurrentPlayer(0);
-        int nextPlayer = game.makeMove(0);
-        assertEquals(0, nextPlayer);
+        game.makeMove(game.getCurrentPlayer(), 0);
         assertEquals(0, game.getCurrentPlayer());
     }
 
@@ -172,7 +176,7 @@ public class GameTests {
                 {6, 6, 0, 6, 6, 6, 0}
         };
         game.setBoard(initialBoard);
-        game.makeMove(0);
+        game.makeMove(game.getCurrentPlayer(), 0);
         assertArrayEquals(expectedBoard, game.getBoard());
     }
 
@@ -187,7 +191,7 @@ public class GameTests {
                 {6, 6, 6, 6, 6, 6, 0}
         };
         game.setBoard(initialBoard);
-        game.makeMove(0);
+        game.makeMove(game.getCurrentPlayer(), 0);
         assertArrayEquals(expectedBoard, game.getBoard());
     }
 

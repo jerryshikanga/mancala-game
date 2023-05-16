@@ -1,12 +1,15 @@
 package com.shikanga.mancala.controllers;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@NoArgsConstructor @AllArgsConstructor @Getter @Setter
+@Getter @Setter
 public class Move {
-    int player;
-    int pitIndex;
+    private Integer player;
+    private Integer pitIndex;
+
+    public Move() {
+        this.player = null;
+        this.pitIndex = null;
+    }
 }
