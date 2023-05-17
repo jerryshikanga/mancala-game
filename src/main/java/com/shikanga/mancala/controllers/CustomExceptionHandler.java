@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.ErrorResponse;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import redis.clients.jedis.exceptions.JedisConnectionException;
 
 @RestControllerAdvice
 public class CustomExceptionHandler {
@@ -30,6 +31,16 @@ public class CustomExceptionHandler {
 
     @ExceptionHandler(WrongPlayerException.class)
     public ErrorResponse handleWrongPlayerException(WrongPlayerException ex){
+        return ErrorResponse.builder(ex, HttpStatus.BAD_REQUEST, ex.getMessage()).build();
+    }
+
+    @ExceptionHandler(JedisConnectionException.class)
+    public ErrorResponse handleRedisConnectionException(JedisConnectionException ex){
+        return ErrorResponse.builder(ex, HttpStatus.INTERNAL_SERVER_ERROR, "Server error").build();
+    }
+
+    @ExceptionHandler(GameOverException.class)
+    public ErrorResponse handleGameOverException(GameOverException ex){
         return ErrorResponse.builder(ex, HttpStatus.BAD_REQUEST, ex.getMessage()).build();
     }
 }

@@ -9,21 +9,57 @@
 <!--        <link rel="stylesheet" href="index.css">-->
     </head>
     <body>
-        <div class="container-fluid pt-5">
-            <h1>Mancala Game</h1>
+        <div class="container container-fluid">
+            <h1 class="text-center">Mancala Game</h1>
             <div class="row">
-                <div class="col-1 text-right">
-                    <h1><span id="playerOneMancala" class="text-secondary"></span></h1>
-                </div>
-                <div class="col-8">
-                    <table id="gameTable" class="table table-bordered table-sm">
-                        <tbody></tbody>
-                    </table>
-                </div>
-                <div class="col-1">
-                    <div class="row"><br/><br/></div>
-                    <div class="row">
+                <h4>Players Instructions/Details.</h4>
+                <ul>
+                    <li>
+                        Player Zero (0)
+                        <ul>
+                            <li><span class="text-secondary"> His/Her pits are of color grey.</span></li>
+                            <li>His/Her Mancala(Big Pit) is to the right. In small screens it will be to the bottom.</li>
+                            <li>He/She plays left to right.
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"/>
+                                </svg>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        Player One (1)
+                        <ul>
+                            <li><span class="text-success"> His/Her pits are of color green</span></li>
+                            <li>His/her Mancala(Big Pit) is to the left. In small screens it will be at the top.</li>
+                            <li>He or she plays right to left.
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"/>
+                                </svg>
+                            </li>
+                        </ul>
+
+
+
+                    </li>
+                </ul>
+            </div>
+            <div class="container-fluid border">
+                <h3>Current player : <span id="idCurrentPlayer"></span></h3>
+                <h3 id="isGameOver"></h3>
+                <div class="row">
+                    <div class="col-1">
+                        <div class="row"><br/><br/></div>
                         <h1><span id="playerTwoMancala" class="text-success"></span></h1>
+                    </div>
+                    <div class="col-8">
+                        <table id="gameTable" class="table table-bordered table-sm">
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                    <div class="col-1">
+                        <div class="row">
+                            <h1><span id="playerOneMancala" class="text-secondary"></span></h1>
+                        </div>
                     </div>
                 </div>
             </div>
