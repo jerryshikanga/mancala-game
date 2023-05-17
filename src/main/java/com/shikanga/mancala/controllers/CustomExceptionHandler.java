@@ -1,9 +1,6 @@
 package com.shikanga.mancala.controllers;
 
-import com.shikanga.mancala.exceptions.EmptyPitException;
-import com.shikanga.mancala.exceptions.InvalidPitException;
-import com.shikanga.mancala.exceptions.InvalidPlayerException;
-import com.shikanga.mancala.exceptions.NoGameFoundException;
+import com.shikanga.mancala.exceptions.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.ErrorResponse;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -29,5 +26,10 @@ public class CustomExceptionHandler {
     @ExceptionHandler(NoGameFoundException.class)
     public ErrorResponse handleNoGameFoundException(NoGameFoundException ex){
         return ErrorResponse.builder(ex, HttpStatus.NOT_FOUND, ex.getMessage()).build();
+    }
+
+    @ExceptionHandler(WrongPlayerException.class)
+    public ErrorResponse handleWrongPlayerException(WrongPlayerException ex){
+        return ErrorResponse.builder(ex, HttpStatus.BAD_REQUEST, ex.getMessage()).build();
     }
 }

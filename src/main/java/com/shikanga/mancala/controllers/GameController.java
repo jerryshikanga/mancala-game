@@ -19,7 +19,7 @@ public class GameController {
 
     private static final Logger logger = LoggerFactory.getLogger(GameController.class);
 
-    @GetMapping("/")
+    @GetMapping("/startGame")
     public Game getGame(HttpServletRequest request){
         String cacheKey = request.getRemoteAddr();
         Game game = redisCache.getGameFromCache(cacheKey);
