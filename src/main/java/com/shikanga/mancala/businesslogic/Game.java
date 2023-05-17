@@ -1,9 +1,6 @@
 package com.shikanga.mancala.businesslogic;
 
-import com.shikanga.mancala.exceptions.EmptyPitException;
-import com.shikanga.mancala.exceptions.InvalidPitException;
-import com.shikanga.mancala.exceptions.InvalidPlayerException;
-import com.shikanga.mancala.exceptions.WrongPlayerException;
+import com.shikanga.mancala.exceptions.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -61,6 +58,11 @@ public class Game {
 
     public void validateMove(int player, int pitIndex){
         String message;
+        if (this.isGameOver()){
+            message = "Game is over. No player can make a move!";
+            this.logger.warn(message);
+            throw new GameOverException(message);
+        }
         if (player < 0 || player >= NUM_PLAYERS){
             message = "The player ID " + player + " is invalid.";
             this.logger.warn(message);

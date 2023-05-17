@@ -2,6 +2,7 @@ package com.shikanga.mancala;
 
 import com.shikanga.mancala.businesslogic.Game;
 import com.shikanga.mancala.exceptions.EmptyPitException;
+import com.shikanga.mancala.exceptions.GameOverException;
 import com.shikanga.mancala.exceptions.InvalidPitException;
 import com.shikanga.mancala.exceptions.InvalidPlayerException;
 import org.junit.jupiter.api.BeforeEach;
@@ -126,7 +127,7 @@ public class GameTests {
     public void testWhenPitIsEmptyExceptionIsThrown(){
         int[][] playerTwoEmptyBoard = {
                 {6, 6, 6, 6, 6, 6, 6},
-                {0, 0, 0, 0, 0, 0, 6}
+                {0, 1, 0, 0, 0, 0, 6}
         };
         game.setBoard(playerTwoEmptyBoard);
         game.setCurrentPlayer(1);
@@ -210,6 +211,24 @@ public class GameTests {
         game.setBoard(initialBoard);
         game.captureFromOpponentOppositePit(0, 0);
         assertArrayEquals(expectedBoard, game.getBoard());
+    }
+
+    @Test
+    public void testWhenGameIsOverNoPlayerCanMakeMove(){
+        int[][] playerOneNoStonesBoard = {
+                {0, 0, 0, 0, 0, 0, 5},
+                {1, 0, 1, 1, 1, 1, 5}
+        };
+        game.setBoard(playerOneNoStonesBoard);
+        assertThrows(GameOverException.class, ()->game.makeMove(0, 1));
+
+        int[][] playerTwoNoStonesBoard = {
+                {1, 0, 1, 1, 1, 1, 5},
+                {0, 0, 0, 0, 0, 0, 5}
+        };
+        game.setBoard(playerTwoNoStonesBoard);
+        assertThrows(GameOverException.class, ()->game.makeMove(1, 1));
+
     }
 }
 
