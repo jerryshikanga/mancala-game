@@ -40,7 +40,7 @@ public class CustomExceptionHandler {
     @ExceptionHandler(JedisConnectionException.class)
     public ErrorResponse handleRedisConnectionException(JedisConnectionException ex){
         logger.error("Failed to connect to redis : "+ex.getMessage() + " : ", ex);
-        return ErrorResponse.builder(ex, HttpStatus.INTERNAL_SERVER_ERROR, "Server error : ").build();
+        return ErrorResponse.builder(ex, HttpStatus.INTERNAL_SERVER_ERROR, "Error connecting to database.").build();
     }
 
     @ExceptionHandler(GameOverException.class)

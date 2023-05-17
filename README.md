@@ -1,7 +1,8 @@
 # Mancala Game
 
-## How to Run
+Get the publicly accessible Demo [Web Version here](http://159.65.113.98:8080)
 
+## How to Run
 #### Requirements
 You need to have the following installed:
 1. Docker container engine. [Install here](https://docs.docker.com/engine/install/ubuntu/) Engine
@@ -31,16 +32,6 @@ docker-compose up --build -d
 ```shell
 docker logs -f mancala-server
 ```
-
-## Limitations & Improvements to be made
-1. A user cannot switch browsers. This is because we do not have a mechanism for users to login and continue the game from another browser of device.
-2. The application uses redis, an in-memory database to store the state of games. This can limit how much the application scales. A good option would be to use a proper database like PostgresSQL.
-3. The connection to the application has not been secured. Switch to using https.
-4. Improve the test coverage to or closer to 100%.
-5. No history of games played by the user. Provide a way to get previous scores and players played against.
-6. In the UI we should have visualization of the stones being picked then being dropped into the subsequent pits.
-7. Secure the Docker Image and build it in layers.
-8. Better naming convention in the API
 
 ## Internal Architecture
 
@@ -78,7 +69,7 @@ The backend is built using the [Spring Framework](https://spring.io).
 This exposes a REST API with a few endpoints
 1. `/currentGame` - To get the current game. Return type `Game` object. This uses the session id as the unique identifier.
 2. `/startGame` - This clears the current game from memory and instantiates a new game. Return type `Game` object.
-3. `/makeMove` - This POST endpoint accepts `player` and `pitIndex` via JSON and uses them to modify the state of the board as per the algorithm in the Architecture above.
+3. `/makeMove` - This POST endpoint accepts `player` and `pitIndex` via JSON and uses them to modify the state of the board as per the algorithm in the Architecture above. It returns the `Game` object.
 
 A sample of the game object is as below
 ```json
@@ -107,3 +98,15 @@ Several types of testing have been done
 1. Unit tests. [Sample here](https://github.com/jerryshikanga/mancala-game/blob/master/src/test/java/com/shikanga/mancala/GameTests.java)
 2. Integration tests [Sample tests](https://github.com/jerryshikanga/mancala-game/blob/master/src/test/java/com/shikanga/mancala/MancalaApplicationTests.java)
 3. UI testing
+
+
+## Limitations & Improvements to be made
+1. A user cannot switch browsers. This is because we do not have a mechanism for users to login and continue the game from another browser of device.
+2. The application uses redis, an in-memory database to store the state of games. This can limit how much the application scales. A good option would be to use a proper database like PostgresSQL.
+3. The connection to the application has not been secured. Switch to using https.
+4. Improve the test coverage to or closer to 100%.
+5. No history of games played by the user. Provide a way to get previous scores and players played against.
+6. In the UI we should have visualization of the stones being picked then being dropped into the subsequent pits.
+7. Secure the Docker Image and build it in layers.
+8. Better naming convention in the API
+9. Inceease testing to include load testing
