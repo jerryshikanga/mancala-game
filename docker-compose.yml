@@ -15,13 +15,21 @@ services:
     environment:
       redis.host: redis-server
       redis.port: 6379
+    restart: always
   redis-server:
     container_name: mancala-redis-server
     image: redis:latest
+    volumes:
+      - redis-data:/data
     ports:
       - 6379:6379
     networks:
       - mancala-network
+    restart: always
+
 networks:
   mancala-network:
     driver: bridge
+
+volumes:
+  redis-data:
