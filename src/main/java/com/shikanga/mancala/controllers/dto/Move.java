@@ -1,4 +1,4 @@
-package com.shikanga.mancala.controllers;
+package com.shikanga.mancala.controllers.dto;
 
 import lombok.Getter;
 import lombok.Setter;

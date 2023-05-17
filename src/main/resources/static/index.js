@@ -1,5 +1,5 @@
 $(document).ready(function() {
-    var url = "/startGame";
+    var url = "/currentGame";
 
     $.getJSON(url, function(response) {
         var game = response;
@@ -24,6 +24,8 @@ function clearCurrentBoard(){
     $("#playerTwoMancala").text("");
     $("#idCurrentPlayer").text("");
     $("#isGameOver").text("");
+    $("#isGameOver").removeClass("text-danger");
+    $("#isGameOver").removeClass("text-primary");
 }
 
 function renderBoard(game){
@@ -51,8 +53,9 @@ function renderBoard(game){
     var gameOverText;
     var gameOverClass;
     if (game.gameOver){
-        gameOverText = "The game has ended";
+        gameOverText = "The game has ended!";
         gameOverClass = "text-danger";
+        handleEndGame(game.board);
     }
     else{
         gameOverText = "The game is still in play.";
@@ -71,7 +74,7 @@ function showErrorMessage(errorMessage){
     if (errorMessage == null){
         errorMessage = "Unknown server error."
     }
-    $('#errorModalDetails').text(errorMessage);
+    $('#errorModalDetails').html(errorMessage);
     $('#errorModal').modal('show');
 }
 
@@ -94,7 +97,7 @@ function pitClicked(pitIndex, playerIndex, stoneCount){
       },
       error: function(XMLHttpRequest, textStatus, errorThrown) {
         console.log("Error "+JSON.stringify(XMLHttpRequest));
-         showErrorMessage(XMLHttpRequest.responseJSON.detail);
+        showErrorMessage(XMLHttpRequest.responseJSON.detail);
       }
     });
 }
@@ -106,7 +109,7 @@ function getCellHtml(cellIndex, playerIndex, stoneCount){
         buttonClass = 'btn btn-success';
     }
     else{
-        buttonClass = 'btn btn-secondary'
+        buttonClass = 'btn btn-warning';
     }
     content += '<button type="button" class=" '+ buttonClass +' " class="text-center"'
     content += 'onclick="pitClicked('+ cellIndex +', '+ playerIndex +', '+ stoneCount +')">';
@@ -114,4 +117,55 @@ function getCellHtml(cellIndex, playerIndex, stoneCount){
     content += '</button>'
     content += '</td>';
     return content;
+}
+
+
+function startNewGame(){
+    console.log("Starting new game");
+    var url = "/startGame";
+    $.ajax({
+        type: "GET",
+        url: url,
+        success: function(data){
+            var game = data;
+            clearCurrentBoard();
+            renderBoard(game);
+        },
+        error: function(XMLHttpRequest, textStatus, errorThrown){
+            console.log("Error "+JSON.stringify(XMLHttpRequest));
+            showErrorMessage(XMLHttpRequest.responseJSON.detail);
+        }
+    });
+}
+
+function findSumOfPlayerScores(board){
+    // Find player one scores
+    var scores = [0, 0];
+    for (var playerIndex=0; playerIndex<scores.length; playerIndex++){
+        for (var pitIndex=0; pitIndex<board[playerIndex].length; pitIndex++){
+            scores[playerIndex]+=board[playerIndex][pitIndex];
+        }
+    }
+    return scores;
+}
+
+
+function handleEndGame(board){
+    var scores = findSumOfPlayerScores(board);
+    console.log("Scores: " + scores);
+    var endGameMessage = 'The game has ended.</br>';
+    endGameMessage += '<span class="text-warning">Player zero has ' + scores[0] + ' stones</span>.</br>';
+    endGameMessage += '<span class="text-success">Player one has ' + scores[1] + ' stones</span>.</br>';
+    endGameMessage += 'Therefore the winner is: ';
+    var winner;
+    if (scores[0] > scores[1]) {
+        winner = '<span class="text-warning text-lg">Player Zero</span>.</br>';
+    } else if (scores[1] > scores[0]) {
+        winner = '<span class="text-success text-lg">Player One</span>.</br>';
+    } else {
+        winner = "No one! It is a draw";
+    }
+
+    endGameMessage += winner;
+    showErrorMessage(endGameMessage);
 }
