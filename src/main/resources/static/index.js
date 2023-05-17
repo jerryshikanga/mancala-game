@@ -62,10 +62,19 @@ function renderBoard(game){
         gameOverClass = "text-primary";
     }
 
+    var currentPlayerClass;
+    if (currentPlayer == 0){
+        currentPlayerClass = 'text-warning';
+    }
+    else{
+        currentPlayerClass = 'text-success';
+    }
+    var currentPlayerHtml = '<span class="'+ currentPlayerClass +'">'+currentPlayer+'</span>';
+
     $("#gameTable tbody").append(topRow, bottomRow);
     $("#playerOneMancala").text(board[0][BIG_PIT_INDEX]);
     $("#playerTwoMancala").text(board[1][BIG_PIT_INDEX]);
-    $("#idCurrentPlayer").text(currentPlayer);
+    $("#idCurrentPlayer").html(currentPlayerHtml);
     $("#isGameOver").text(gameOverText);
     $("#isGameOver").addClass(gameOverClass);
 }

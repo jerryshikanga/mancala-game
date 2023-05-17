@@ -1,0 +1,27 @@
+version: '2'
+services:
+  mancala-server:
+    container_name: mancala-server
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        JAR_FILE: target/mancala-0.0.1-SNAPSHOT.jar
+    image: mancala-server:0.0.1
+    ports:
+      - 8080:8080
+    networks:
+      - mancala-network
+    environment:
+      redis.host: redis-server
+      redis.port: 6379
+  redis-server:
+    container_name: mancala-redis-server
+    image: redis:latest
+    ports:
+      - 6379:6379
+    networks:
+      - mancala-network
+networks:
+  mancala-network:
+    driver: bridge
