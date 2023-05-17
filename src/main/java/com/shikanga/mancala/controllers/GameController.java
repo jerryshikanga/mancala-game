@@ -1,6 +1,7 @@
 package com.shikanga.mancala.controllers;
 
 import com.shikanga.mancala.businesslogic.Game;
+import com.shikanga.mancala.controllers.dto.Move;
 import com.shikanga.mancala.exceptions.NoGameFoundException;
 import com.shikanga.mancala.utils.RedisCache;
 import jakarta.servlet.http.HttpServletRequest;
@@ -17,22 +18,31 @@ public class GameController {
     @Autowired
     private RedisCache redisCache;
 
+    private String cacheKey;
+
     private static final Logger logger = LoggerFactory.getLogger(GameController.class);
 
     @GetMapping("/startGame")
-    public Game getGame(HttpServletRequest request){
-        String cacheKey = request.getRemoteAddr();
+    public Game startNewGame(HttpServletRequest request){
+        cacheKey = request.getRemoteAddr();
+        Game game = new Game();
+        redisCache.setGameInCache(cacheKey, game);
+        return game;
+    }
+
+    @GetMapping("/currentGame")
+    public Game getCurrentGame(HttpServletRequest request){
+        cacheKey = request.getRemoteAddr();
         Game game = redisCache.getGameFromCache(cacheKey);
         if (game == null){
-            game = new Game();
-            redisCache.setGameInCache(cacheKey, game);
+            throw new NoGameFoundException("No game has been found in your current session. Please start a new one.");
         }
         return game;
     }
 
     @PostMapping("/makeMove")
     public Game makeMove(@RequestBody Move move, HttpServletRequest request){
-        String cacheKey = request.getRemoteAddr();
+        cacheKey = request.getRemoteAddr();
         logger.info("Player "+move.getPlayer()+ " Has Sowed from Pit "+move.getPitIndex());
         Game game = redisCache.getGameFromCache(cacheKey);
         if (game == null){

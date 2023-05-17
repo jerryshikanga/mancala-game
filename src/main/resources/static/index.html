@@ -17,7 +17,7 @@
                     <li>
                         Player Zero (0)
                         <ul>
-                            <li><span class="text-secondary"> His/Her pits are of color grey.</span></li>
+                            <li><span class="text-warning"> His/Her pits are of color orange.</span></li>
                             <li>His/Her Mancala(Big Pit) is to the right. In small screens it will be to the bottom.</li>
                             <li>He/She plays left to right.
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right" viewBox="0 0 16 16">
@@ -45,7 +45,15 @@
             </div>
             <div class="container-fluid border">
                 <h3>Current player : <span id="idCurrentPlayer"></span></h3>
-                <h3 id="isGameOver"></h3>
+                <div class="row">
+                    <div class="col">
+                        <h3 id="isGameOver"></h3>
+                    </div>
+                    <div class="col">
+                        <button class="btn btn-danger" onclick="startNewGame()">Start New Game</button>
+                    </div>
+
+                </div>
                 <div class="row">
                     <div class="col-1">
                         <div class="row"><br/><br/></div>
@@ -58,7 +66,7 @@
                     </div>
                     <div class="col-1">
                         <div class="row">
-                            <h1><span id="playerOneMancala" class="text-secondary"></span></h1>
+                            <h1><span id="playerOneMancala" class="text-warning"></span></h1>
                         </div>
                     </div>
                 </div>
