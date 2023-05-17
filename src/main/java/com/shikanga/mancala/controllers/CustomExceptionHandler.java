@@ -1,6 +1,8 @@
 package com.shikanga.mancala.controllers;
 
 import com.shikanga.mancala.exceptions.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.ErrorResponse;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -9,6 +11,7 @@ import redis.clients.jedis.exceptions.JedisConnectionException;
 
 @RestControllerAdvice
 public class CustomExceptionHandler {
+    private final Logger logger = LoggerFactory.getLogger(CustomExceptionHandler.class);
     @ExceptionHandler(InvalidPitException.class)
     public ErrorResponse handleInvalidPitException(InvalidPitException ex){
         return ErrorResponse.builder(ex, HttpStatus.BAD_REQUEST, ex.getMessage()).build();
@@ -36,7 +39,8 @@ public class CustomExceptionHandler {
 
     @ExceptionHandler(JedisConnectionException.class)
     public ErrorResponse handleRedisConnectionException(JedisConnectionException ex){
-        return ErrorResponse.builder(ex, HttpStatus.INTERNAL_SERVER_ERROR, "Server error").build();
+        logger.error("Failed to connect to redis : "+ex.getMessage() + " : ", ex);
+        return ErrorResponse.builder(ex, HttpStatus.INTERNAL_SERVER_ERROR, "Server error : ").build();
     }
 
     @ExceptionHandler(GameOverException.class)
