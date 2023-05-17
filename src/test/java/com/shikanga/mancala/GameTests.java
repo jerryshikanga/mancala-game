@@ -129,6 +129,7 @@ public class GameTests {
                 {0, 0, 0, 0, 0, 0, 6}
         };
         game.setBoard(playerTwoEmptyBoard);
+        game.setCurrentPlayer(1);
         assertThrows(EmptyPitException.class, () ->
                 game.validateMove(1, 0)
         );
@@ -146,6 +147,7 @@ public class GameTests {
         assertThrows(InvalidPitException.class, () ->
                 game.validateMove(0, 8)
         );
+        game.setCurrentPlayer(1);
         assertThrows(InvalidPitException.class, () ->
                 game.validateMove(1, -1)
         );

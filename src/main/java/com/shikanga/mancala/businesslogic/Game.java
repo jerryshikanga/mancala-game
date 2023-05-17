@@ -66,6 +66,11 @@ public class Game {
             this.logger.warn(message);
             throw new InvalidPlayerException(message);
         }
+        if(player!=currentPlayer){
+            message = "Player "+player+" has played instead of "+currentPlayer;
+            this.logger.warn(message);
+            throw new WrongPlayerException(message);
+        }
         if (pitIndex < 0 || pitIndex > BIG_PIT_INDEX){
             message = "The pit index " + pitIndex + " is invalid.";
             this.logger.warn(message);
@@ -75,11 +80,6 @@ public class Game {
             message = "The pit is empty!";
             this.logger.warn(message);
             throw new EmptyPitException("The pit is empty!");
-        }
-        if(player!=currentPlayer){
-            message = "Player "+player+" has played instead of "+currentPlayer;
-            this.logger.warn(message);
-            throw new WrongPlayerException(message);
         }
     }
 
