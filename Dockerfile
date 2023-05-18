@@ -1,6 +1,6 @@
 FROM openjdk:17-jdk-slim
-MAINTAINER jerryshikanga.github.io
+LABEL maintainer="jerryshikanga.github.io"
 WORKDIR /app
 ARG JAR_FILE
 COPY ${JAR_FILE} app.jar
-ENTRYPOINT ["java","-jar","app.jar"]
+CMD ["java","-jar","app.jar"]
