@@ -12,7 +12,10 @@
         <div class="container container-fluid">
             <h1 class="text-center">Mancala Game</h1>
             <div class="row">
-                <h4>Players Instructions/Details.</h4>
+                <a href="https://github.com/jerryshikanga/mancala-game/">Link to code (Access Required)</a>
+            </div>
+            <div class="row">
+                <h4>Players Details.</h4>
                 <ul>
                     <li>
                         Player Zero (0)
@@ -43,28 +46,31 @@
                     </li>
                 </ul>
             </div>
-            <div class="container-fluid border">
-                <h3>Current player : <span id="idCurrentPlayer"></span></h3>
+            <div class="container-fluid border p-4">
                 <div class="row">
-                    <div class="col">
-                        <h3 id="isGameOver"></h3>
-                    </div>
-                    <div class="col">
-                        <button class="btn btn-danger" onclick="startNewGame()">Start New Game</button>
-                    </div>
-
+                    <h4 id="isGameOver"></h4>
                 </div>
                 <div class="row">
-                    <div class="col-1">
-                        <div class="row"><br/><br/></div>
-                        <h1><span id="playerTwoMancala" class="text-success"></span></h1>
+                    <div class="col">
+                        <button class="btn btn-danger btn-sm" onclick="startNewGame()">Start New Game</button>
                     </div>
-                    <div class="col-8">
+                </div>
+                <div class="row">
+                    <h4>Current player : <span id="idCurrentPlayer"></span></h4>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <div class="row"><br/><br/></div>
+                        <h1 class="text-end">
+                            <span id="playerTwoMancala" class="text-success"></span>
+                        </h1>
+                    </div>
+                    <div class="col">
                         <table id="gameTable" class="table table-bordered table-sm">
                             <tbody></tbody>
                         </table>
                     </div>
-                    <div class="col-1">
+                    <div class="col">
                         <div class="row">
                             <h1><span id="playerOneMancala" class="text-warning"></span></h1>
                         </div>
@@ -72,11 +78,24 @@
                 </div>
             </div>
             <div class="container-fluid">
-                <div class="row">
-                    <a href="https://github.com/jerryshikanga/mancala-game/">Link to code (Access Required)</a>
-                </div>
-                <div class="row">
-
+                <div class="row p-4">
+                    <h4 class="text-center">Instructions/Rules</h4>
+                    <h6>Board Setup</h6>
+                    Each of the two players has his six pits in front of him.
+                    To the right of the six pits, each player has a larger pit.
+                    At the start of the game, there are six stones in each of the six round pits .
+                    <h6>Game Play</h6>
+                    The player who begins with the first move picks up all the stones in any of his own six pits, and sows the stones on to the right, one in each of the following pits, including his own big pit.
+                    No stones are put in the opponents' big pit.
+                    If the player's last stone lands in his own big pit, he gets another turn.
+                    This can be repeated several times before it's the other player's turn.
+                    <h6> Capturing Stones</h6>
+                    During the game the pits are emptied on both sides.
+                    Always when the last stone lands in an own empty pit, the player captures his own stone and all stones in the opposite pit (the other player’s pit) and puts them in his own (big or little?) pit.
+                    <h6> The Game Ends </h6>
+                    The game is over as soon as one of the sides runs out of stones.
+                    The player who still has stones in his pits keeps them and puts them in his big pit.
+                    The winner of the game is the player who has the most stones in his big pit.
                 </div>
             </div>
 

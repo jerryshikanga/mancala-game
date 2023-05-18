@@ -35,6 +35,8 @@ docker logs -f mancala-server
 
 ## Internal Architecture
 
+![Flow Diagram](src/main/resources/static/images/Mancala Game.jpg)
+
 The application represents the game in the [Game](https://github.com/jerryshikanga/mancala-game/blob/master/src/main/java/com/shikanga/mancala/businesslogic/Game.java) class.
 The game class represents the board as a 2*7 matrix. 
 

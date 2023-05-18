@@ -5,6 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Arrays;
+import java.util.Objects;
 
 
 public class Game {
@@ -168,6 +169,21 @@ public class Game {
         boolean playerTwoHasStones = this.countPlayerStones(1) > 0;
         this.logger.debug("playerOneHasStones "+playerOneHasStones+ " playerTwoHasStones "+playerTwoHasStones);
         return !playerOneHasStones || !playerTwoHasStones;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Game game = (Game) o;
+        return getCurrentPlayer() == game.getCurrentPlayer() && Arrays.deepEquals(getBoard(), game.getBoard());
+    }
+
+    @Override
+    public int hashCode() {
+        int result = Objects.hash(getCurrentPlayer());
+        result = 31 * result + Arrays.hashCode(getBoard());
+        return result;
     }
 }
 

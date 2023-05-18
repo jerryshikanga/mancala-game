@@ -9,5 +9,4 @@ class MancalaApplicationTests {
 	@Test
 	void contextLoads() {
 	}
-
 }
