@@ -1,4 +1,4 @@
-version: '2'
+version: '3'
 services:
   mancala-server:
     container_name: mancala-server
@@ -16,6 +16,8 @@ services:
       redis.host: redis-server
       redis.port: 6379
     restart: always
+    depends_on:
+      - redis-server
   redis-server:
     container_name: mancala-redis-server
     image: redis:latest
@@ -26,6 +28,11 @@ services:
     networks:
       - mancala-network
     restart: always
+    healthcheck:
+      test: [ "CMD-SHELL", "redis-cli ping | grep PONG" ]
+      interval: 1s
+      timeout: 3s
+      retries: 5
 
 networks:
   mancala-network:

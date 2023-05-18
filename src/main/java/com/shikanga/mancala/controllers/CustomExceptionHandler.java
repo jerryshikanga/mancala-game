@@ -8,6 +8,7 @@ import org.springframework.web.ErrorResponse;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import redis.clients.jedis.exceptions.JedisConnectionException;
+import redis.clients.jedis.exceptions.JedisDataException;
 
 @RestControllerAdvice
 public class CustomExceptionHandler {
@@ -37,14 +38,20 @@ public class CustomExceptionHandler {
         return ErrorResponse.builder(ex, HttpStatus.BAD_REQUEST, ex.getMessage()).build();
     }
 
+    @ExceptionHandler(GameOverException.class)
+    public ErrorResponse handleGameOverException(GameOverException ex){
+        return ErrorResponse.builder(ex, HttpStatus.BAD_REQUEST, ex.getMessage()).build();
+    }
+
     @ExceptionHandler(JedisConnectionException.class)
     public ErrorResponse handleRedisConnectionException(JedisConnectionException ex){
         logger.error("Failed to connect to redis : "+ex.getMessage() + " : ", ex);
         return ErrorResponse.builder(ex, HttpStatus.INTERNAL_SERVER_ERROR, "Error connecting to database.").build();
     }
 
-    @ExceptionHandler(GameOverException.class)
-    public ErrorResponse handleGameOverException(GameOverException ex){
-        return ErrorResponse.builder(ex, HttpStatus.BAD_REQUEST, ex.getMessage()).build();
+    @ExceptionHandler(JedisDataException.class)
+    public ErrorResponse handleRedisWriteException(JedisDataException ex){
+        logger.error("Failed to write to redis : "+ex.getMessage(), ex);
+        return ErrorResponse.builder(ex, HttpStatus.INTERNAL_SERVER_ERROR, "Error writing to database.").build();
     }
 }
