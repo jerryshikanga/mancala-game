@@ -43,7 +43,7 @@ public class GameController {
     @PostMapping("/makeMove")
     public Game makeMove(@RequestBody Move move, HttpServletRequest request){
         cacheKey = request.getSession().getId();
-        logger.info("Player "+move.getPlayer()+ " Has Sowed from Pit "+move.getPitIndex());
+        logger.debug("Player "+move.getPlayer()+ " Has Sowed from Pit "+move.getPitIndex());
         Game game = redisCache.getGameFromCache(cacheKey);
         if (game == null){
             throw new NoGameFoundException("No game has been found in your current session. Please start a new one.");

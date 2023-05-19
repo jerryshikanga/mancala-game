@@ -15,9 +15,19 @@ services:
     environment:
       redis.host: redis-server
       redis.port: 6379
+      spring.session.store-type: redis
+      spring.data.redis.host: redis-server
+      spring.data.redis.port: 6379
     restart: always
     depends_on:
       - redis-server
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+        compress: "true"
+        labels: "com.docker.compose.logging.rotate-by=day"
   redis-server:
     container_name: mancala-redis-server
     command: redis-server --appendonly yes --save "" --maxmemory-policy allkeys-lru --maxmemory 1gb --maxmemory-samples 5
