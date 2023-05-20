@@ -8,12 +8,20 @@ $(document).ready(function() {
     }).fail(function(jqXHR, textStatus, errorThrown) {
         var errorResponse = jqXHR.responseJSON;
 
-        // Display error details
-        console.log("Error:", errorResponse.title);
-        console.log("Status:", errorResponse.status);
-        console.log("Detail:", errorResponse.detail);
+        var errorMessage;
+        try {
+            // Display error details
+            console.log("Error:", errorResponse.title);
+            console.log("Status:", errorResponse.status);
+            console.log("Detail:", errorResponse.detail);
+            errorMessage = errorResponse.detail;
+        }
+        catch(e){
+            console.log(e);
+            errorMessage = "Unknown server error when getting current game.";
+        }
 
-        showErrorMessage(errorResponse.detail);
+        showErrorMessage(errorMessage);
     });
 });
 
@@ -81,7 +89,7 @@ function renderBoard(game){
 
 function showErrorMessage(errorMessage){
     if (errorMessage == null){
-        errorMessage = "Unknown server error."
+        errorMessage = "Unknown error."
     }
     $('#errorModalDetails').html(errorMessage);
     $('#errorModal').modal('show');
@@ -106,7 +114,14 @@ function pitClicked(pitIndex, playerIndex, stoneCount){
       },
       error: function(XMLHttpRequest, textStatus, errorThrown) {
         console.log("Error "+JSON.stringify(XMLHttpRequest));
-        showErrorMessage(XMLHttpRequest.responseJSON.detail);
+        var errorMessage;
+        try{
+            errorMessage = XMLHttpRequest.responseJSON.detail;
+        }
+        catch (e){
+            errorMessage = "Unknown server error when making move."
+        }
+        showErrorMessage(errorMessage);
       }
     });
 }
@@ -142,7 +157,15 @@ function startNewGame(){
         },
         error: function(XMLHttpRequest, textStatus, errorThrown){
             console.log("Error "+JSON.stringify(XMLHttpRequest));
-            showErrorMessage(XMLHttpRequest.responseJSON.detail);
+            var errorMessage;
+            try{
+                errorMessage = XMLHttpRequest.responseJSON.detail;
+            }
+            catch(e){
+            console.log(e);
+            showErrorMessage("Unknown server error when starting game.")
+            }
+            showErrorMessage(errorMessage);
         }
     });
 }
