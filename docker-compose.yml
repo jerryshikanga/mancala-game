@@ -30,7 +30,7 @@ services:
         labels: "com.docker.compose.logging.rotate-by=day"
   redis-server:
     container_name: mancala-redis-server
-    command: redis-server --appendonly yes --replica-read-only no
+    command: redis-server --appendonly yes --replica-read-only no --save "" --maxmemory-policy allkeys-lru --maxmemory 1gb --maxmemory-samples 5
     image: redis:alpine
     volumes:
       - redis-data:/data
