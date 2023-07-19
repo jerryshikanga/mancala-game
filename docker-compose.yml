@@ -31,12 +31,12 @@ services:
 
   redis-server:
     container_name: mancala-redis-server
-    command: redis-server --appendonly yes --replica-read-only no --save "" --maxmemory-policy allkeys-lru --maxmemory 1gb --maxmemory-samples 5 --bind 127.0.0.1
+    command: redis-server --appendonly yes --replica-read-only no --save "" --maxmemory-policy allkeys-lru --maxmemory 1gb --maxmemory-samples 5 --bind redis-server
     image: redis:alpine
     volumes:
       - redis-data:/data
     ports:
-      - 127.0.0.1:6379:6379  # Binding only to the internal network IP (127.0.0.1)
+      - 6379:6379
     networks:
       - mancala-network
     restart: always
